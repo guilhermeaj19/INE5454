@@ -18,7 +18,7 @@ class AbsMedExtractor(ABC):
     def get_preco(self) -> str:
         return None
     
-    def get_code(self) -> str:
+    def get_code(self) -> int:
         return None
     
     def get_marca(self) -> str:
@@ -30,10 +30,10 @@ class AbsMedExtractor(ABC):
     def get_sub_categoria(self) -> str:
         return None
     
-    def get_principios_ativos(self):
+    def get_principios_ativos(self) -> list:
         return None
     
-    def get_image_source(self):
+    def get_image_source(self) -> str:
         return None
     
     def get(self, data: str) -> Medicamento:
