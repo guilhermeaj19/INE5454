@@ -1,2 +1,0 @@
-Metacritic Multiprocess: 187.16 s
-Metacritic Singleprocess: 770.91 s
