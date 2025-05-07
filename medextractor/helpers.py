@@ -12,12 +12,38 @@ class AbsMedExtractor(ABC):
     def get_nome(self) -> str:
         return None
     
+    def get_url(self) -> str:
+        return None
+    
     def get_preco(self) -> str:
         return None
     
     def get_code(self) -> str:
         return None
     
+    def get_marca(self) -> str:
+        return None
+    
+    def get_categoria(self) -> str:
+        return None
+    
+    def get_sub_categoria(self) -> str:
+        return None
+    
+    def get_principios_ativos(self):
+        return None
+    
+    def get_image_source(self):
+        return None
+    
     def get(self, data: str) -> Medicamento:
         self.process(data)
-        return asdict(Medicamento(self.get_nome(), self.get_preco(), self.get_code()))
+        return asdict(Medicamento(self.get_nome(), 
+                                  self.get_url(),
+                                  self.get_preco(), 
+                                  self.get_code(), 
+                                  self.get_marca(), 
+                                  self.get_categoria(), 
+                                  self.get_sub_categoria(),
+                                  self.get_principios_ativos(),
+                                  self.get_image_source()))
