@@ -1,7 +1,8 @@
-from extractors.preco_popular import PrecoPopularExtractor, AbsMedExtractor
+from extractors.preco_popular import PrecoPopularExtractor
 from extractors.panvel import PanvelExtractor
 from extractors.catarinense import CatarinenseExtractor
-
+from medextractor.helpers import AbsMedExtractor
+from playwright.sync_api import sync_playwright
 
 def print_meds(urls: list[str], extractor: AbsMedExtractor):
     for data in urls:
@@ -44,20 +45,24 @@ med_urls_panvel = ["https://www.panvel.com/panvel/durateston-250mg-ml-1ml-1-ampo
                    "https://www.panvel.com/panvel/agulha-para-caneta-de-insulina-novo-fine-32g-4mm-com-7-unidades/p-92499",
                    "https://www.panvel.com/panvel/reidratante-sorox-tangerina-550ml/p-93175"]
 
+pw = sync_playwright().start()
+chrome = pw.chromium.launch(headless=False)
+page = chrome.new_page()
+
 print("Medicamentos Preço Popular")
-popular_extractor = PrecoPopularExtractor()
+popular_extractor = PrecoPopularExtractor(page)
 print_meds(med_urls_popular, popular_extractor)
 print(f"{''.join(['=']*150)}")
 
 print("Medicamentos Drogaria Catarinense")
-catarinense_extractor = CatarinenseExtractor()
+catarinense_extractor = CatarinenseExtractor(page)
 # Parece que o extrator da Preço Popular também funciona para Drogaria Catarinense
 # Realizar mais testes para confirmar se vale para todos os atributos
-print_meds(med_urls_catarinense, popular_extractor)
+print_meds(med_urls_catarinense, catarinense_extractor)
 print(f"{''.join(['=']*150)}")
 
-print("Medicamentos Panvel")
-panvel_extractor = PanvelExtractor()
-print_meds(med_urls_panvel, panvel_extractor)
-
+pw.stop()
+# print("Medicamentos Panvel")
+# panvel_extractor = PanvelExtractor()
+# print_meds(med_urls_panvel, panvel_extractor)
 

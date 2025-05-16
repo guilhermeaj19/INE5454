@@ -1,61 +1,57 @@
 import requests
 from medextractor.helpers import AbsMedExtractor
-from bs4 import BeautifulSoup
-
 
 class CatarinenseExtractor(AbsMedExtractor):
-    def __init__(self):
-        super().__init__()
-        self.s = requests.Session()
+    def __init__(self, page):
+        super().__init__(page)
 
     def process(self, data):
-        self.url = data
-        self.html = self.s.get(data).text
-        self.soup = BeautifulSoup(self.html, "html.parser")
-        with open("test.html", "w+") as f:
-            f.write(self.html)
+        self.page.goto(data)
+        self.page.wait_for_selector("span.vtex-product-price-1-x-currencyFraction--product__price")
 
     def get_nome(self):
-        return self.soup.find(
-            "span", {"class": "vtex-store-components-3-x-productBrand"}
-        ).text.strip()
-    
-    def get_url(self):
-        return self.url
+        return self.page.locator("span.vtex-store-components-3-x-productBrand").first.text_content().strip()
 
     def get_preco(self):
-        #Pegar por requisição
-        pass
+        price_integer = self.page.locator("span.vtex-product-price-1-x-currencyInteger--product__price").last.text_content()
+        price_fraction = self.page.locator("span.vtex-product-price-1-x-currencyFraction--product__price").last.text_content()
+        price = float(f"{price_integer}.{price_fraction}")
+        return price
 
     def get_code(self):
-        return int(self.soup.find(
-            "span", {"class": "vtex-product-identifier-0-x-product-identifier__value"}
-        ).text)
+        return int(self.page.locator(
+            "span.vtex-product-identifier-0-x-product-identifier__value").first.text_content()
+        )
     
     def get_marca(self):
-        return self.soup.find(
-                    "span", {"class": "vtex-store-components-3-x-productBrandName"}
-                ).text.strip()
+        return self.page.locator(
+                    "span.vtex-store-components-3-x-productBrandName"
+                ).first.text_content()
 
     def get_categoria(self):
-        return self.soup.find(
-                    "a", {"class": "vtex-breadcrumb-1-x-link vtex-breadcrumb-1-x-link--breadcrumb-product vtex-breadcrumb-1-x-link--2 vtex-breadcrumb-1-x-link--breadcrumb-product--2 dib pv1 link ph2 c-muted-2 hover-c-link"}
-                ).text.strip()
+        return self.page.locator(
+                    "a.vtex-breadcrumb-1-x-link--2"
+                ).first.text_content()
     
     def get_sub_categoria(self):
-        result = self.soup.find(
-                    "a", {"class": "vtex-breadcrumb-1-x-link vtex-breadcrumb-1-x-link--breadcrumb-product vtex-breadcrumb-1-x-link--3 vtex-breadcrumb-1-x-link--breadcrumb-product--3 dib pv1 link ph2 c-muted-2 hover-c-link"}
-                )
-        
-        return result.text.strip() if result else "Não possui"
+        try:
+            return self.page.locator(
+                        "a.vtex-breadcrumb-1-x-link--3"
+                    ).first.text_content(timeout=5000)
+        except:
+            return None
     
     def get_principios_ativos(self):
-        #Pegar por requisição
-        pass
+        try:
+            return self.page.locator(
+                        "a.precopopular-apps-common-components-2-x-productSpecificationContentValueLink"
+                    ).first.text_content(timeout=5000)
+        except:
+            return None
     
     def get_image_source(self):
-        return self.soup.find(
-                    "img", {"class": "vtex-store-components-3-x-productImageTag"}
-                )['src'].strip()
+        return self.page.locator(
+            "img.vtex-store-components-3-x-productImageTag"
+        ).first.get_attribute("src")
 
 

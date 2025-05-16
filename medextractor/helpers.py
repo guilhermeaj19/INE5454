@@ -1,8 +1,13 @@
 from abc import ABC, abstractmethod
 from dataclasses import asdict
 from medextractor.entities import Medicamento
+from playwright.sync_api import sync_playwright
 
 class AbsMedExtractor(ABC):
+    def __init__(self, page):
+        # self.pw = sync_playwright().start()
+        # self.chrome = self.pw.chromium.launch(headless=False)
+        self.page = page
 
     def process(self, data):
         """Operação realizada antes de chamar os getters
@@ -13,7 +18,7 @@ class AbsMedExtractor(ABC):
         return None
     
     def get_url(self) -> str:
-        return None
+        return self.url
     
     def get_preco(self) -> str:
         return None
@@ -38,7 +43,8 @@ class AbsMedExtractor(ABC):
     
     def get(self, data: str) -> Medicamento:
         self.process(data)
-        return asdict(Medicamento(self.get_nome(), 
+        self.url = data
+        med = asdict(Medicamento(self.get_nome(), 
                                   self.get_url(),
                                   self.get_preco(), 
                                   self.get_code(), 
@@ -47,3 +53,4 @@ class AbsMedExtractor(ABC):
                                   self.get_sub_categoria(),
                                   self.get_principios_ativos(),
                                   self.get_image_source()))
+        return med

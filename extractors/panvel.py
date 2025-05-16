@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 
 class PanvelExtractor(AbsMedExtractor):
-    def __init__(self):
+    def __init__(self, page):
         super().__init__()
         self.s = requests.Session()
 
