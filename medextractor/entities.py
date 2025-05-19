@@ -11,8 +11,8 @@ class Medicamento:
     sub_categoria: str
     principios_ativos: list # ##
     image_source: str
-    # is_generico: bool #
-    # necessita_prescricao: bool #
+    is_generico: bool #
+    necessita_prescricao: bool #
     # necessita_receita: bool
     # descricao: str
 

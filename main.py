@@ -46,7 +46,7 @@ med_urls_panvel = ["https://www.panvel.com/panvel/durateston-250mg-ml-1ml-1-ampo
                    "https://www.panvel.com/panvel/reidratante-sorox-tangerina-550ml/p-93175"]
 
 pw = sync_playwright().start()
-chrome = pw.chromium.launch(headless=False)
+chrome = pw.chromium.launch(headless=True)
 page = chrome.new_page()
 
 print("Medicamentos Preço Popular")
