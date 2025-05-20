@@ -40,7 +40,6 @@ med_urls_panvel = ["https://www.panvel.com/panvel/durateston-250mg-ml-1ml-1-ampo
                    "https://www.panvel.com/panvel/dipirona-sodica-monoidratada-500mg-ml-10ml-medquimica-generico/p-106847",
                    "https://www.panvel.com/panvel/praalergia-180mg-6-comprimidos-revestidos-cimed/p-93669",
                    "https://www.panvel.com/panvel/oleo-mineral-100-lifar/p-94219",
-                   "https://www.panvel.com/panvel/seakalm-600mg-20-comprimidos/p-108953",
                    "https://www.panvel.com/panvel/furosemida-40mg-20-comprimidos-prati-donaduzzi-generico/p-107765",
                    "https://www.panvel.com/panvel/agulha-para-caneta-de-insulina-novo-fine-32g-4mm-com-7-unidades/p-92499",
                    "https://www.panvel.com/panvel/reidratante-sorox-tangerina-550ml/p-93175"]
@@ -61,8 +60,8 @@ catarinense_extractor = CatarinenseExtractor(page)
 print_meds(med_urls_catarinense, catarinense_extractor)
 print(f"{''.join(['=']*150)}")
 
-pw.stop()
-# print("Medicamentos Panvel")
-# panvel_extractor = PanvelExtractor()
-# print_meds(med_urls_panvel, panvel_extractor)
+print("Medicamentos Panvel")
+panvel_extractor = PanvelExtractor(page)
+print_meds(med_urls_panvel, panvel_extractor)
 
+pw.stop()
