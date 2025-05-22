@@ -26,6 +26,9 @@ class AbsMedExtractor(ABC):
     def get_code(self) -> int:
         return None
     
+    def get_registro_ms(self) -> int:
+        return None
+    
     def get_marca(self) -> str:
         return None
     
@@ -54,6 +57,7 @@ class AbsMedExtractor(ABC):
                                   self.get_url(),
                                   self.get_preco(), 
                                   self.get_code(), 
+                                  self.get_registro_ms(),
                                   self.get_marca(), 
                                   self.get_categoria(), 
                                   self.get_sub_categoria(),

@@ -6,6 +6,7 @@ class Medicamento:
     url: str
     preco: float #
     code: int
+    registro_ms: int
     marca: str ##
     categoria: str
     sub_categoria: str
