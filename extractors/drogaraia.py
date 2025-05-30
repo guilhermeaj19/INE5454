@@ -8,59 +8,63 @@ class DrogaraiaExtractor(AbsMedExtractor):
 
     def process(self, data):
         self.page.goto(data)
-        self.page.wait_for_selector("span.ProductPricestyles__Price-i0kwh2-5.kbMdBR", state="hidden")
 
         # html_content = self.page.content()
 
         # with open("result.html", "w", encoding="utf-8") as f:
         #     f.write(html_content)
+        self.page.wait_for_selector("span.sc-dce0c2fc-4.hPCOGR")
 
     def get_nome(self):
-        return self.page.locator("h1.Titlestyles__TitleStyles-sc-1deip5w-0.kGDgiE").text_content().strip()
+        return eval(self.page.locator("script[type='application/ld+json']").text_content())['name']
 
     def get_preco(self):
-        text = self.page.locator("span.ProductPricestyles__Price-i0kwh2-5.kbMdBR").last.text_content().strip()
-        return float(re.sub(r"Por  R\$ (\d+),(\d{2})", r"\1.\2", text))
+        return float(self.page.locator("meta[property='product:price:amount']").get_attribute('content').strip())
 
     def get_code(self):
         try:
-            return int(self.page.locator("//span[contains(@class, 'RaiaProductDescriptionstyles__Title-sc') and text()='SKU']/following-sibling::span/div").text_content().strip())
+            return int(eval(self.page.locator("script[type='application/ld+json']").text_content())['sku'])
         except:
             return None
     
     def get_registro_ms(self):
         try:
-            return int(self.page.locator("//span[contains(@class, 'RaiaProductDescriptionstyles__Title-sc') and text()='MS']/following-sibling::span/div").text_content().strip())
-        except:
+            registro_ms_span = self.page.locator("span.sc-dce0c2fc-4.hPCOGR:has-text('Registro MS')")
+            return int(registro_ms_span.locator("xpath=following-sibling::span").inner_text())
+        except Exception as e:
             return None
             
     def get_marca(self):
         try:
-            return self.page.locator("//span[contains(@class, 'RaiaProductDescriptionstyles__Title-sc') and text()='Marca']/following-sibling::span/span/a").text_content().strip()
+            return eval(self.page.locator("script[type='application/ld+json']").text_content())['brand']['name']
         except:
             return None
 
     def get_categoria(self):
         try:
-            return self.page.locator("li.Breadcrumbsstyles__Item-fir7a9-1.kKFsBt a").all()[1].text_content()
+            return self.page.locator("a.sc-4e253ef5-0.cyULBC").all()[2].text_content()
         except:
             return None
     
     def get_sub_categoria(self):
         try:
-            return self.page.locator("li.Breadcrumbsstyles__Item-fir7a9-1.kKFsBt a").all()[2].text_content()
+            if self.page.locator("a.sc-4e253ef5-0.cyULBC").count() >= 4:
+                return self.page.locator("a.sc-4e253ef5-0.cyULBC").all()[3].text_content()
+            return None
         except:
             return None
     
     def get_principios_ativos(self):
         try:
-            return self.page.locator("//span[contains(@class, 'RaiaProductDescriptionstyles__Title-sc') and text()='Princípio Ativo Novo']/following-sibling::span/span/a").text_content().strip().split(",")
+            principio_span = self.page.locator("span.sc-dce0c2fc-4.hPCOGR:has-text('Princípio Ativo')")
+            principio_ativo = principio_span.locator("xpath=following-sibling::span/a").inner_text()
+            return principio_ativo.split(',')
         except:
             return None
     
     def get_image_source(self):
         try:
-            return self.page.locator("img.swiper-lazy.small-image[src][style*='width:100%;height:auto;display:block;pointer-events:none']").get_attribute('src')
+            return eval(self.page.locator("script[type='application/ld+json']").text_content())['image']
         except:
             return None
         

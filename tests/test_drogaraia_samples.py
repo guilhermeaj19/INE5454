@@ -1,12 +1,24 @@
+import sys
+sys.path.append("C:/Users/guilh/OneDrive/Documentos/GitHub/INE5454")
+
+
 from extractors.drogaraia import DrogaraiaExtractor
 from medextractor.helpers import AbsMedExtractor
+from urlextractor.drogaria_url_extractor import DrogaraiaUrlExtractor
+from urlextractor.abs_url_extractor import AbsUrlExtractor
 from playwright.sync_api import sync_playwright
+import json
+
 
 
 def print_meds(urls: list[str], extractor: AbsMedExtractor):
     for data in urls:
         med = extractor.get(data)
         print(med, end = "\n\n")
+
+def save_urls(url: str, extractor: AbsUrlExtractor):
+    extractor.get(url)
+    
 
 # Base: https://www.drogaraia.com.br/medicamentos/remedios.html
 med_urls_drogaraia = ["https://www.drogaraia.com.br/tadalafila-20mg-neo-quimica-generico-1-comprimidos-revestidos.html",
@@ -19,6 +31,9 @@ med_urls_drogaraia = ["https://www.drogaraia.com.br/tadalafila-20mg-neo-quimica-
 pw = sync_playwright().start()
 chrome = pw.chromium.launch(headless=False)
 page = chrome.new_page()
+
+# drogaraia = DrogaraiaUrlExtractor(page)
+# save_urls("https://www.drogaraia.com.br/medicamentos/remedios.html?page=",drogaraia)
 
 print("Medicamentos Drogaraia")
 drogaraia_extractor = DrogaraiaExtractor(page)
