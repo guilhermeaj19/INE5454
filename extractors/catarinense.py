@@ -1,4 +1,3 @@
-import requests
 from medextractor.helpers import AbsMedExtractor
 
 class CatarinenseExtractor(AbsMedExtractor):
