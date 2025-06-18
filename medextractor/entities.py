@@ -6,7 +6,7 @@ class Medicamento:
     url: str
     preco: float #
     code: int
-    registro_ms: int
+    registro_ms: str
     marca: str ##
     categoria: str
     sub_categoria: str
@@ -14,6 +14,7 @@ class Medicamento:
     image_source: str
     is_generico: bool #
     necessita_prescricao: bool #
+    farmacia: str
     # necessita_receita: bool
     # descricao: str
 

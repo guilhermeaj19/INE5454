@@ -6,10 +6,12 @@ pw = sync_playwright().start()
 chrome = pw.chromium.launch(headless=False)
 page = chrome.new_page()
 
-urlextractor = DrogaraiaUrlExtractor(page)
-print(urlextractor.get())
+
+
+# urlextractor = DrogaraiaUrlExtractor(page)
+# print(urlextractor.get())
 
 #Extração individual
 extractor = DrogaraiaExtractor(page)
-data = extractor.get("https://www.drogasil.com.br/tadalafila-20mg-neo-quimica-generico-1-comprimidos-revestidos.html?origin=search")
-print(data)
+extractor.update("https://www.drogaraia.com.br/cloridrato-de-fluoxetina-20mg-teuto-generico-30-capsulas-c1.html")
+input()

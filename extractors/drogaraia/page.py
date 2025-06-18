@@ -16,7 +16,7 @@ class DrogaraiaExtractor(AbsMedExtractor):
         self.page.wait_for_selector("span.sc-dce0c2fc-4.hPCOGR")
 
     def get_nome(self):
-        return eval(self.page.locator("script[type='application/ld+json']").text_content())['name']
+        return self.page.locator("h1.sc-2aea4133-1").text_content()
 
     def get_preco(self):
         return float(self.page.locator("meta[property='product:price:amount']").get_attribute('content').strip())
@@ -30,7 +30,7 @@ class DrogaraiaExtractor(AbsMedExtractor):
     def get_registro_ms(self):
         try:
             registro_ms_span = self.page.locator("span.sc-dce0c2fc-4.hPCOGR:has-text('Registro MS')")
-            return int(registro_ms_span.locator("xpath=following-sibling::span").inner_text())
+            return registro_ms_span.locator("xpath=following-sibling::span").inner_text()
         except Exception as e:
             return None
             
@@ -81,3 +81,6 @@ class DrogaraiaExtractor(AbsMedExtractor):
             text = self.page.locator(box).last.text_content()
             return "prescrição" in text.lower()
         return False
+    
+    def get_farmacia(self):
+        return "drogaraia"
