@@ -14,15 +14,18 @@ class AbsUrlExtractor(ABC):
         self.path = path if path else None
 
         #120 Páginas se limite não for definido
-        self.limit = limit if limit else 120
+        self.limit = limit
         self.page_it = page_it if page_it else 1
+
+    def setup(self, data):
+        '''Operação realizada no primeiro getter'''
 
     def process(self, data):
         """Operação realizada antes de chamar os getters
         Pode ser utilizada para, por exemplo, retornar
         uma página antes de processar campos"""
 
-    def get_urls(self) -> list[str]:
+    def get_urls(self) -> set:
         return None
     
     def get_next_url(self) -> str:
@@ -44,6 +47,7 @@ class AbsUrlExtractor(ABC):
         
     def get(self):
         url_set = set()
+        self.setup()
         for _ in range(self.limit):
             self.process(self.url)
             data = self.get_urls()
@@ -134,7 +138,7 @@ class DataManager:
         self.d = d
 
     def update(self, m: Medicamento):
-        
+
         if m.registro_ms not in self.d:
             self.d[m.registro_ms] = asdict(m)
             self.d[m.registro_ms].pop("url", None)
@@ -159,3 +163,12 @@ class DataManager:
         path = path if path else "extracted_data/data.json"
         with open(path, "w") as f:
             json.dump(self.d, f)
+
+class PharmaManager:
+    def __init__(self, url_extractor: AbsUrlExtractor, extractor: AbsMedExtractor, data_manager: DataManager = None):
+        self.url_extractor = url_extractor
+        self.extractor = extractor
+        self.data_manager = data_manager if data_manager else DataManager()
+
+    def update():
+        pass
