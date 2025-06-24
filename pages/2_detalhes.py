@@ -15,7 +15,7 @@ if registro is None:
 with Session() as db:
     medicamento = db.query(Medicamento).filter_by(registro_ms=registro).first()
     st.title(medicamento.nome)
-    st.image(medicamento.image_source)
+    st.image(medicamento.image_source, width=150)
 
     st.subheader("Ofertas disponíveis:")
     for oferta in medicamento.ofertas:
