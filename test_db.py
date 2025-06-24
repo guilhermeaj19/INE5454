@@ -39,5 +39,5 @@ with Session() as db:
         url="https://www.drogasil.com.br/dipirona-500mg.html",
         preco=12.90,
     )
-    db.add_all([med, oferta])
-    db.commit()
+    for o in db.query(Oferta).all():
+        print(f"{o.id} | {o.medicamento.nome} | {o.farmacia.nome} | R$ {float(o.preco):.2f}")

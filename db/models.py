@@ -1,8 +1,8 @@
 from sqlalchemy import (
-    create_engine, Column, Integer, String, Boolean, Numeric, Text,
+    Column, Integer, String, Boolean, Numeric, Text,
     DateTime, ForeignKey, func, Table, UniqueConstraint
 )
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import relationship
 from db import Base
 
 # Tabela associativa p/ princípios-ativos n - n
@@ -44,7 +44,7 @@ class Medicamento(Base):
 
     principios = relationship(
         "PrincipioAtivo", secondary=medicamento_principio_ativo,
-        back_populates="medicamentos"
+        back_populates="medicamentos",
     )
     ofertas    = relationship("Oferta", back_populates="medicamento")
 
@@ -59,7 +59,6 @@ class Oferta(Base):
                         ondelete="CASCADE"), nullable=False)
     url            = Column(Text, nullable=False)
     preco          = Column(Numeric(12, 2), nullable=False)
-    coletado_em    = Column(DateTime, server_default=func.now(), nullable=False)
 
     medicamento = relationship("Medicamento", back_populates="ofertas")
     farmacia    = relationship("Farmacia",    back_populates="ofertas")

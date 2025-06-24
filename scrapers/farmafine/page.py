@@ -2,7 +2,7 @@ import requests
 from medextractor.helpers import AbsMedExtractor
 import re
 
-class UltrafarmaExtractor(AbsMedExtractor):
+class FarmafineExtractor(AbsMedExtractor):
     def __init__(self, page):
         super().__init__(page)
 
@@ -41,7 +41,7 @@ class UltrafarmaExtractor(AbsMedExtractor):
         try:
             principio_span = self.page.locator("#attr-principioativo")
             text = principio_span.text_content().split(":")[1]
-            return text.strip()
+            return [text.strip()]
         except:
             return None
     
