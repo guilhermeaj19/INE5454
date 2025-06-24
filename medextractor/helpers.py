@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import asdict
 import json
-from medextractor.entities import Medicamento
+from db.models import Medicamento
 from playwright.sync_api import Page
 
 
@@ -62,7 +62,6 @@ class AbsMedExtractor(ABC):
         # self.pw = sync_playwright().start()
         # self.chrome = self.pw.chromium.launch(headless=False)
         self.page = page
-        self.manager = manager if manager else DataManager()
 
         if not manager:
             self.manager.load()
@@ -118,57 +117,13 @@ class AbsMedExtractor(ABC):
     def get(self, data: str) -> Medicamento:
         self.process(data)
         self.url = data
-        med = Medicamento(self.get_nome(), 
-                                  self.get_url(),
-                                  self.get_preco(), 
-                                  self.get_code(), 
-                                  self.get_registro_ms(),
-                                  self.get_marca(), 
-                                  self.get_categoria(), 
-                                  self.get_sub_categoria(),
-                                  self.get_principios_ativos(),
-                                  self.get_image_source(),
-                                  self.get_is_generico(), 
-                                  self.get_necessita_prescricao(),
-                                  self.get_farmacia())
+        med = Medicamento(nome=self.get_nome(), 
+                                  registro_ms=self.get_registro_ms(),
+                                  marca=self.get_marca(), 
+                                  categoria=self.get_categoria(), 
+                                  sub_categoria=self.get_sub_categoria(),
+                                  principios=self.get_principios_ativos(),
+                                  image_source=self.get_image_source(),
+                                  is_generico=self.get_is_generico(), 
+                                  necessita_prescricao=self.get_necessita_prescricao())
         return med
-
-class DataManager:
-    def __init__(self, d: dict = None):
-        self.d = d
-
-    def update(self, m: Medicamento):
-
-        if m.registro_ms not in self.d:
-            self.d[m.registro_ms] = asdict(m)
-            self.d[m.registro_ms].pop("url", None)
-            self.d[m.registro_ms].pop("farmacia", None)
-            self.d[m.registro_ms].pop("preco", None)
-            self.d[m.registro_ms]["farmacias"] = {}
-        
-        self.d[m.registro_ms]["farmacias"][m.farmacia] = {"preco": m.preco, "url": m.url}
-        self.save()
-
-    def load(self, path = None):
-        path = path if path else "extracted_data/data.json"
-        with open(path, "r") as f:
-            self.d = json.load(f)
-
-    def get_urls_farmacia(self, farmacia):
-        for key in self.d:
-            if farmacia in self.d[key]["farmacias"]:
-                return self.d[key]["farmacias"][farmacia]["url"]
-
-    def save(self, path = None):
-        path = path if path else "extracted_data/data.json"
-        with open(path, "w") as f:
-            json.dump(self.d, f)
-
-class PharmaManager:
-    def __init__(self, url_extractor: AbsUrlExtractor, extractor: AbsMedExtractor, data_manager: DataManager = None):
-        self.url_extractor = url_extractor
-        self.extractor = extractor
-        self.data_manager = data_manager if data_manager else DataManager()
-
-    def update():
-        pass
