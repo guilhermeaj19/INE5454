@@ -1,5 +1,5 @@
 import requests
-from medextractor.helpers import AbsMedExtractor
+from medextractor import AbsMedExtractor
 import re
 
 class FarmafineExtractor(AbsMedExtractor):

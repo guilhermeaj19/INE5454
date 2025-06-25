@@ -1,4 +1,4 @@
-from medextractor.helpers import AbsUrlExtractor
+from medextractor import AbsUrlExtractor
 import json
 
 class DrogaraiaUrlExtractor(AbsUrlExtractor):
