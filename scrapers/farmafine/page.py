@@ -1,8 +1,6 @@
-import requests
-from medextractor import AbsMedExtractor
-import re
+from medextractor import AbsPageExtractor
 
-class FarmafineExtractor(AbsMedExtractor):
+class FarmafinePageExtractor(AbsPageExtractor):
     def __init__(self, page):
         super().__init__(page)
 

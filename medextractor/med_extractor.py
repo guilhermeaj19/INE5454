@@ -5,7 +5,7 @@ import re
 
 from db.repository import FarmaciaRepo, MedicamentoRepo, OfertaRepo, PrincipioAtivoRepo
 
-class AbsMedExtractor(ABC):
+class AbsPageExtractor(ABC):
     def __init__(
         self,
         page: Page,
@@ -14,6 +14,7 @@ class AbsMedExtractor(ABC):
         # self.pw = sync_playwright().start()
         # self.chrome = self.pw.chromium.launch(headless=False)
         self.page = page
+        self.db = db
         self.medicamento_repo = MedicamentoRepo(db)
         self.oferta_repo =  OfertaRepo(db)
         self.farmacia_repo = FarmaciaRepo(db)
@@ -76,6 +77,7 @@ class AbsMedExtractor(ABC):
 
         if not med.registro_ms:
             return False
+        
 
         return True
 
@@ -87,6 +89,9 @@ class AbsMedExtractor(ABC):
         if not self.validate(med):
             return None
     
+        with self.medicamento_repo.db.no_autoflush:
+            farma = self.farmacia_repo.get_or_create(self.get_farmacia())
+
         principios = self.principio_ativo_repo.bulk_get_or_create(self.get_principios_ativos())
 
         with self.medicamento_repo.db.no_autoflush:
@@ -101,8 +106,8 @@ class AbsMedExtractor(ABC):
         else:
             db_med.principios = principios
 
-        farma = self.farmacia_repo.get_or_create(self.get_farmacia())
         self.oferta_repo.upsert(db_med, farma, self.url, self.get_preco())
+        self.db.commit()
 
 
     def get_med(self, data: str) -> Medicamento:

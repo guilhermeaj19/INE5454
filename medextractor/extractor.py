@@ -1,17 +1,19 @@
 from abc import ABC
-from medextractor.med_extractor import AbsMedExtractor
+from medextractor.med_extractor import AbsPageExtractor
 from medextractor.url_extractor import AbsUrlExtractor
 from playwright.sync_api import Page
 
 class AbsExtractor(ABC):
 
     url_extractor_cls = AbsUrlExtractor
-    med_extractor_cls = AbsMedExtractor
+    page_extractor_cls = AbsPageExtractor
     base_url = ""
 
-    def __init__(self, page: Page):
-        self.url_extractor = self.url_extractor_cls(page)
-        self.med_extractor = self.med_extractor_cls(page)
+    def __init__(self, page: Page, db):
+        self.url_extractor = self.url_extractor_cls(page, self.base_url)
+        self.med_extractor = self.page_extractor_cls(page, db)
 
-    def extract():
-        pass
+    def extract(self):
+        urls = self.url_extractor.extract()
+        for url in urls:
+            self.med_extractor.extract(url)

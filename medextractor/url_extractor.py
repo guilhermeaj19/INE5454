@@ -4,18 +4,17 @@ from streamlit import Page
 
 
 class AbsUrlExtractor(ABC):
-    def __init__(self, page: Page, url=None, path=None, limit=None, page_it=None):
+    def __init__(self, page: Page, url=None, limit=None, page_it=None):
         # self.pw = sync_playwright().start()
         # self.chrome = self.pw.chromium.launch(headless=False)
         self.page = page
         self.url = url
-        self.path = path if path else None
 
         # 120 Páginas se limite não for definido
         self.limit = limit
         self.page_it = page_it if page_it else 1
 
-    def setup(self, data):
+    def setup(self):
         """Operação realizada no primeiro getter"""
 
     def process(self, data):

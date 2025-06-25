@@ -1,5 +1,4 @@
 from medextractor import AbsUrlExtractor
-import json
 
 class FarmafineUrlExtractor(AbsUrlExtractor):
 
