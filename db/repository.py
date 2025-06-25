@@ -11,8 +11,8 @@ from sqlalchemy.orm import joinedload
 from db import Session
 
 class MedicamentoRepo:
-    def __init__(self, db = None):
-        self.db = db if db else Session
+    def __init__(self, db):
+        self.db = db
 
     def get(self, med_id: int):
             return self.db.get(Medicamento, med_id)
@@ -26,8 +26,8 @@ class MedicamentoRepo:
         self.db.add(med)
 
 class FarmaciaRepo:
-    def __init__(self, db = None):
-        self.db = db if db else Session
+    def __init__(self, db):
+        self.db = db
 
     def get(self, farma_id: int):
             return self.db.get(Farmacia, farma_id)
@@ -127,6 +127,9 @@ class PrincipioAtivoRepo:
         Recebe um iterável de strings e devolve uma lista de objetos
         `PrincipioAtivo`, criando os que ainda não existirem.
         """
+        if nomes == None:
+            return None
+        
         objs: list[PrincipioAtivo] = []
         lowered = [n.lower() for n in nomes]
 
@@ -158,8 +161,8 @@ class OfertaRepo:
     # -----------------------------------------------------------------
     # CONSTRUTOR
     # -----------------------------------------------------------------
-    def __init__(self, db = None) -> None:
-        self.db = db if db else Session
+    def __init__(self, db) -> None:
+        self.db = db
 
     # -----------------------------------------------------------------
     # CRUD GENÉRICO

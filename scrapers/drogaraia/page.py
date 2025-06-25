@@ -3,8 +3,8 @@ from medextractor.helpers import AbsMedExtractor
 import re
 
 class DrogaraiaExtractor(AbsMedExtractor):
-    def __init__(self, page):
-        super().__init__(page)
+    def __init__(self, page, db):
+        super().__init__(page, db)
 
     def process(self, data):
         self.page.goto(data)
