@@ -20,3 +20,13 @@ class Oferta(Base):
 
     medicamento = relationship("Medicamento", back_populates="ofertas")
     farmacia    = relationship("Farmacia",    back_populates="ofertas")
+
+    def __repr__(self) -> str:          # novo método
+        med_nome   = self.medicamento.nome if self.medicamento else f"id={self.medicamento_id}"
+        farma_nome = self.farmacia.nome    if self.farmacia    else f"id={self.farmacia_id}"
+        return (
+            f"<Oferta id={self.id} "
+            f"medicamento='{med_nome}' "
+            f"farmacia='{farma_nome}' "
+            f"preco={self.preco:.2f}>"
+        )
