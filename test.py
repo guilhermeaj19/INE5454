@@ -1,16 +1,9 @@
-from db.models import Medicamento, Oferta
-from scrapers.drogaraia.extractor import DrogaraiaExtractor
-from playwright.sync_api import sync_playwright
-from db import Session, init_db
+from scrapers.app import ScraperApp
 
-pw = sync_playwright().start()
-chrome = pw.chromium.launch(headless=False)
-page = chrome.new_page()
 
-init_db()
+app = ScraperApp()
 
-with Session() as db:  # db é um Session real
-    extractor = DrogaraiaExtractor(page, db)
-    extractor.extract()
-    for o in db.query(Oferta).all():
-        print(o)
+app.run()
+# for o in db.query(Oferta).all():
+#     print(o)
+# db.close()

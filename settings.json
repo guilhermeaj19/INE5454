@@ -1,0 +1,2 @@
+// ask every time a file is moved/renamed
+{"python.analysis.updateImportsOnFileMove.enabled": "prompt"}

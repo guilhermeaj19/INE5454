@@ -16,4 +16,8 @@ class AbsExtractor(ABC):
     def extract(self):
         urls = self.url_extractor.extract()
         for url in urls:
-            self.med_extractor.extract(url)
+            try:
+                med = self.med_extractor.extract(url)
+                print(med)
+            except Exception as e:
+                print(f"Erro na url {url}")
