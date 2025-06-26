@@ -16,33 +16,34 @@ class DrogaraiaPageExtractor(AbsPageExtractor):
         self.page.wait_for_selector("span.sc-dce0c2fc-4.hPCOGR")
 
     def get_nome(self):
-        return self.page.locator("h1.sc-2aea4133-1").text_content()
+        return self.page.locator("h1.sc-2aea4133-1").text_content(timeout=1000)
 
     def get_preco(self):
-        return float(self.page.locator("meta[property='product:price:amount']").get_attribute('content').strip())
+        preco = float(self.page.locator("meta[property='product:price:amount']").get_attribute('content', timeout=1000).strip())
+        return preco
 
     def get_code(self):
         try:
-            return int(eval(self.page.locator("script[type='application/ld+json']").text_content())['sku'])
+            return int(eval(self.page.locator("script[type='application/ld+json']").text_content(timeout=1000))['sku'])
         except:
             return None
     
     def get_registro_ms(self):
         try:
             registro_ms_span = self.page.locator("span.sc-dce0c2fc-4.hPCOGR:has-text('Registro MS')")
-            return registro_ms_span.locator("xpath=following-sibling::span").inner_text()
+            return registro_ms_span.locator("xpath=following-sibling::span").inner_text(timeout=1000)
         except Exception as e:
             return None
             
     def get_marca(self):
         try:
-            return eval(self.page.locator("script[type='application/ld+json']").text_content())['brand']['name']
+            return eval(self.page.locator("script[type='application/ld+json']").text_content(timeout=1000))['brand']['name']
         except:
             return None
 
     def get_categoria(self):
         try:
-            return self.page.locator("a.sc-4e253ef5-0.cyULBC").all()[2].text_content()
+            return self.page.locator("a.sc-4e253ef5-0.cyULBC").all()[2].text_content(timeout=1000)
         except:
             return None
     
@@ -81,6 +82,12 @@ class DrogaraiaPageExtractor(AbsPageExtractor):
             text = self.page.locator(box).last.text_content()
             return "prescrição" in text.lower()
         return False
+    
+    def get_descricao(self):
+        product_details = self.page.locator("#product-details")
+        text_box = product_details.locator("div[data-testid='parser-script']")
+        return text_box.text_content(timeout=1000)
+
     
     def get_farmacia(self):
         return "drogaraia"

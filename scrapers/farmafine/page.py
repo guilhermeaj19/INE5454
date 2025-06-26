@@ -35,14 +35,6 @@ class FarmafinePageExtractor(AbsPageExtractor):
     def get_sub_categoria(self):
         return None
     
-    def get_principios_ativos(self):
-        try:
-            principio_span = self.page.locator("#attr-principioativo")
-            text = principio_span.text_content().split(":")[1]
-            return [text.strip()]
-        except:
-            return None
-    
     def get_image_source(self):
         return self.page.locator("img.product-gallery__image").get_attribute("data-zoom").strip()[2:]
         

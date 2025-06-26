@@ -12,8 +12,8 @@ with Session() as db:
     # 3. Insere ou atualiza uma oferta
     oferta = upsert_medicamento_oferta(
         db,
-        registro_ms="1234567890123",
-        nome="Dipirona Monoidratada 500 mg",
+        registro_ms="1234567890124",
+        nome="Kit Dipirona Monoidratada 500 mg",
         marca="Genfar",
         categoria="Analgésico",
         sub_categoria="Dor e Febre",
@@ -22,7 +22,7 @@ with Session() as db:
         is_generico=True,
         necessita_prescricao=False,
         farmacia_nome="Drogaria Central",
-        preco=Decimal("7.89"),
+        preco=Decimal("7.86"),
         url="https://drogariacentral.com.br/dipirona-500mg",
     )
 
