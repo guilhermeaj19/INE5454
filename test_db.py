@@ -1,43 +1,32 @@
-from sqlalchemy import (
-    create_engine,
-    Column,
-    Integer,
-    String,
-    Boolean,
-    Numeric,
-    Text,
-    DateTime,
-    ForeignKey,
-    func,
-    Table,
-    UniqueConstraint,
-)
-from sqlalchemy.orm import declarative_base, relationship, sessionmaker
-from db.models import Base, PrincipioAtivo, Farmacia, Medicamento, Oferta
+from decimal import Decimal
 
-engine = create_engine("sqlite:///pharma.db")
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine, future=True)
+from db import init_db, Session                     # cria engine, Session e metadata [9]
+from db.utils import upsert_medicamento_oferta   # função criada anteriormente
+                                                    # usa MedicamentoRepo[6], FarmaciaRepo[8] e OfertaRepo[7]
 
+# 1. Garante que as tabelas existam (executar uma única vez no início do app)
+init_db()                                           # [9]
+
+# 2. Abre transação
 with Session() as db:
-    pa = PrincipioAtivo(nome="Dipirona")
-    drog = Farmacia(nome="Drogasil")
-    med = Medicamento(
-        registro_ms="1234567890123",
-        nome="Dipirona Monoidratada 500 mg Comprimidos",
-        marca="Genérico",
-        categoria="Analgésico / Antitérmico",
-        sub_categoria="Dipirona",
+    # 3. Insere ou atualiza uma oferta
+    oferta = upsert_medicamento_oferta(
+        db,
+        registro_ms="1234567890124",
+        nome="Kit Dipirona Monoidratada 500 mg",
+        marca="Genfar",
+        categoria="Analgésico",
+        sub_categoria="Dor e Febre",
         image_source="https://exemplo.com/dipirona.jpg",
+        descricao="Analgésico e antipirético",
         is_generico=True,
         necessita_prescricao=False,
-        principios=[pa],
+        farmacia_nome="Drogaria Central",
+        preco=Decimal("7.86"),
+        url="https://drogariacentral.com.br/dipirona-500mg",
     )
-    oferta = Oferta(
-        medicamento=med,
-        farmacia=drog,
-        url="https://www.drogasil.com.br/dipirona-500mg.html",
-        preco=12.90,
-    )
-    for o in db.query(Oferta).all():
-        print(f"{o.id} | {o.medicamento.nome} | {o.farmacia.nome} | R$ {float(o.preco):.2f}")
+
+    # 4. Visualização amigável graças ao __repr__ implementado
+    print(oferta)
+    # Saída esperada:
+    # <Oferta id=1 medicamento='Dipirona Monoidratada 500 mg' farmacia='Drogaria Central' preco=7.89>

@@ -2,9 +2,10 @@ from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DB_URL = "sqlite:///{}".format(Path(__file__).parent.parent.parent / "pharma.db")
+DB_URL = "sqlite:///{}".format(Path(__file__).parent.parent / "pharma.db")
 
 engine = create_engine(DB_URL, echo=False)
+
 Session = sessionmaker(bind=engine)
 
 Base = declarative_base()

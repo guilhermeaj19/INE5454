@@ -1,11 +1,11 @@
 import requests
-from medextractor.helpers import AbsMedExtractor
+from medextractor import AbsPageExtractor
 import re
 
-class UltrafarmaExtractor(AbsMedExtractor):
-    def __init__(self, page, medicamento_repo = None, oferta_repo = None, farmacia_repo = None, principio_ativo_repo = None):
-        super().__init__(page, medicamento_repo, oferta_repo, farmacia_repo, principio_ativo_repo)
-
+class UltrafarmaExtractor(AbsPageExtractor):
+    def __init__(self, page, db):
+        super().__init__(page, db)
+        
     def process(self, data):
         self.page.goto(data)
 
