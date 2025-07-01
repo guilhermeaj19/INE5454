@@ -2,7 +2,6 @@ from db import Session
 from scrapers.drogaraia.extractor import DrogaraiaExtractor
 from scrapers.farmafine.extractor import FarmafineExtractor
 from playwright.sync_api import sync_playwright
-from db import Session
 
 class ScraperApp:
     def __init__(self):

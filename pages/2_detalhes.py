@@ -18,6 +18,13 @@ with Session() as db:
     st.image(medicamento.image_source, width=150)
 
     st.subheader("Ofertas disponíveis:")
+
+    # 1. Acha o menor preço
+    precos = [oferta.preco for oferta in medicamento.ofertas]
+    menor_preco = min(precos) if precos else None
+
+    # 2. Mostra ofertas, destacando a mais barata
     for oferta in medicamento.ofertas:
+        destaque = "  ✅ Melhor preço!" if oferta.preco == menor_preco else ""
         st.write(f"- **{oferta.farmacia.nome}**: R$ {oferta.preco:.2f}")
-        st.markdown(f"[Ver oferta]({oferta.url})")
+        st.markdown(f"[Ver oferta]({oferta.url}) - {destaque}")
