@@ -23,7 +23,8 @@ medicamentos_page = medicamentos[start:end]
 cols = st.columns(3)
 for i, med in enumerate(medicamentos_page):
     with cols[i % 3]:
-        st.image(med.image_source, width=150)
+        if med.image_source:
+            st.image(med.image_source, width=150)
         if st.button(med.nome, key=med.registro_ms):
             st.session_state["med_selecionado"] = med.registro_ms
             st.switch_page("pages/2_detalhes.py")

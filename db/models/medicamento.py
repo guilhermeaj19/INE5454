@@ -36,6 +36,7 @@ class Medicamento(Base):
             f"marca={self.marca!r}, "
             f"quantidade={self.quantidade!r}, "
             f"is_generico={self.is_generico}, "
+            f"image_source={self.image_source}, "
             f"necessita_prescricao={self.necessita_prescricao}"
             f")>"
         )
