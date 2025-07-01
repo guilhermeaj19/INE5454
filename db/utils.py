@@ -9,13 +9,14 @@ from db.repositories.farmacia import FarmaciaRepo
 from db.repositories.oferta import OfertaRepo
 
 def validate_medicamento(med: Medicamento):
-    pattern = re.compile(r"\bkit\b|\bcaixas\b", re.IGNORECASE)
+    pattern = re.compile(r"\bkit\b|\bcaixas\b|\bfrascos\b", re.IGNORECASE)
 
     # Verifica se nome contêm "kit" ou "caixas", indicando plural
     if pattern.search(med.nome):
         return False
 
     if not med.registro_ms:
+        print("Isso")
         return False
     
 
@@ -25,6 +26,7 @@ def upsert_medicamento_oferta(
     db: Session,
     *,
     registro_ms: str,
+    quantidade: int,
     nome: str,
     marca: str | None = None,
     categoria: str | None = None,
@@ -42,11 +44,12 @@ def upsert_medicamento_oferta(
     far_repo = FarmaciaRepo(db)
     oferta_repo = OfertaRepo(db)
 
-    med = med_repo.get_by_registro(registro_ms)
+    med = med_repo.get_by_registro_quantidade(registro_ms, quantidade)
 
     if med is None:
         med = Medicamento(
             registro_ms=registro_ms,
+            quantidade=quantidade,
             nome=nome,
             marca=marca,
             categoria=categoria,
@@ -59,6 +62,7 @@ def upsert_medicamento_oferta(
         if validate_medicamento(med):
             med_repo.add(med)
         else:
+            print("Inválido")
             return None
 
     farma = far_repo.get_or_create(farmacia_nome)
