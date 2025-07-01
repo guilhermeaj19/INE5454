@@ -1,6 +1,7 @@
 from abc import ABC
 from db.models import Medicamento
 from playwright.sync_api import Page
+from db.models.oferta import Oferta
 from db.utils import upsert_medicamento_oferta
 from medextractor.utils import extrai_qtd
 
@@ -66,7 +67,7 @@ class AbsPageExtractor(ABC):
     def get_descricao(self):
         return None
 
-    def extract(self, data: str) -> Medicamento:
+    def extract(self, data: str) -> Oferta:
         self.process(data)
         self.url = data
 

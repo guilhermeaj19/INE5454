@@ -4,11 +4,16 @@ import json
 class DrogaraiaUrlExtractor(AbsUrlExtractor):
 
     def __init__(self, page, url=None):
-        super().__init__(page, url if url else "https://www.drogaraia.com.br/medicamentos/remedios.html", limit=4)
+        super().__init__(page, url if url else "https://www.drogaraia.com.br/medicamentos/remedios.html", limit=20)
 
     def process(self, data = None):
-        self.page.goto(data if data else "")
+        self.page.goto(data if data else "", timeout=0)
         self.page.wait_for_selector("div.ProductCardstyles__ContainerImage-iu9am6-1.wXbdy")
+
+    def setup(self):
+        self.page.goto(self.url if self.url else "", timeout=0)
+        self.page.wait_for_selector("a.Paginationstyles__Link-sc-1am2zyy-3")
+        self.limit = int(self.page.locator("a.Paginationstyles__Link-sc-1am2zyy-3").all()[-2].text_content())
 
     def get_next_url(self):
         self.page_it += 1

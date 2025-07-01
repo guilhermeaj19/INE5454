@@ -1,24 +1,46 @@
+import time
 from medextractor import AbsUrlExtractor
 import json
 
 class UltrafarmaUrlExtractor(AbsUrlExtractor):
 
     def __init__(self, page, url=None):
-        super().__init__(page, url if url else "https://www.drogaraia.com.br/medicamentos.html?page=1", limit=4)
+        super().__init__(page, url if url else "https://www.ultrafarma.com.br/categoria/medicamentos", limit=50)
 
-    def process(self, data = None):
-        self.page.goto(data if data else "")
-        self.page.wait_for_selector("div.ProductCardstyles__ContainerImage-iu9am6-1.wXbdy")
+    def setup(self):
+        self.page.goto(self.url if self.url else "")
+        self.page.wait_for_selector("a.product-item-link")
+        self.previous_height = self.page.evaluate("document.body.scrollHeight")
 
     def get_next_url(self):
-        self.page_it += 1
-        return f"https://www.drogaraia.com.br/medicamentos.html?page={self.page_it}"
+        #Infinite scroll
+        group_buttons = self.page.locator("div.group-inputs-button")
+        group_buttons.scroll_into_view_if_needed()
+        for i in range(20):
+            current_height = self.page.evaluate("document.body.scrollHeight")
+            print("Teste")
+            if current_height != self.previous_height:
+                self.previous_height = current_height
+                return ""
+            time.sleep(0.5)
 
-    #TODO: arrumar a inserção no json para se tornar um json único (ou um txt) e não um jsonl
+        return None
+
     def get_urls(self):
-        self.number_of_pages = int(self.page.locator("a.Paginationstyles__Link-sc-1am2zyy-3.elEkTT").all()[-2].text_content())
-        urls_element = self.page.locator("div.ProductCardstyles__ContainerImage-iu9am6-1.wXbdy a").all()
-        urls = [url.get_attribute("href") for url in urls_element]
+        # urls_element = self.page.locator("a.product-item-link").all()
+        urls_element = self.page.evaluate(
+    """
+    ({selector, count}) => {
+        const nodes = Array.from(document.querySelectorAll(selector));
+        return nodes.slice(-count).map(el => ({
+            href: el.href,
+            text: el.textContent.trim()
+        }));
+    }
+    """,
+    {"selector": "a.product-item-link", "count": 50}
+)
+        urls = [url["href"] for url in urls_element]
         return urls
         # with open("urlextractor/drogaria.jsonl", 'w', encoding="utf-8") as file:
         #     file.write(str(json.dumps({1: [url.get_attribute('href') for url in urls_element]}, indent=4)))

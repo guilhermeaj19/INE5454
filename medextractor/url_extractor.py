@@ -1,6 +1,5 @@
 from abc import ABC
-
-from streamlit import Page
+from playwright.sync_api import Page
 
 
 class AbsUrlExtractor(ABC):
@@ -39,5 +38,7 @@ class AbsUrlExtractor(ABC):
             data = self.get_urls()
             self.url = self.get_next_url()
             url_set.update(data)
+            if self.url == None:
+                break
 
         return url_set

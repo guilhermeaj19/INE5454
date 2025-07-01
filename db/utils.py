@@ -16,7 +16,7 @@ def validate_medicamento(med: Medicamento):
         return False
 
     if not med.registro_ms:
-        print("Isso")
+        print(med)
         return False
     
 

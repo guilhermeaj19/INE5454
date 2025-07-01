@@ -50,7 +50,7 @@ class DrogaraiaPageExtractor(AbsPageExtractor):
     def get_sub_categoria(self):
         try:
             if self.page.locator("a.sc-4e253ef5-0.cyULBC").count() >= 4:
-                return self.page.locator("a.sc-4e253ef5-0.cyULBC").all()[3].text_content()
+                return self.page.locator("a.sc-4e253ef5-0.cyULBC").all()[3].text_content(timeout=1000)
             return None
         except:
             return None
@@ -58,28 +58,28 @@ class DrogaraiaPageExtractor(AbsPageExtractor):
     def get_principios_ativos(self):
         try:
             principio_span = self.page.locator("span.sc-dce0c2fc-4.hPCOGR:has-text('Princípio Ativo')")
-            principio_ativo = principio_span.locator("xpath=following-sibling::span/a").inner_text()
+            principio_ativo = principio_span.locator("xpath=following-sibling::span/a").inner_text(timeout=1000)
             return principio_ativo.split(',')
         except:
             return None
     
     def get_image_source(self):
         try:
-            return eval(self.page.locator("script[type='application/ld+json']").text_content())['image']
+            return eval(self.page.locator("script[type='application/ld+json']").text_content(timeout=1000))['image']
         except:
             return None
         
     def get_is_generico(self):
         box = "//p[contains(@style, 'border:1px solid #666')][contains(@style, 'font-size:11px')]"
         if self.page.is_visible(box, timeout=1000):
-            text = self.page.locator(box).last.text_content()
+            text = self.page.locator(box).last.text_content(timeout=1000)
             return "genérico" in text.lower()
         return False
 
     def get_necessita_prescricao(self):
         box = "//p[contains(@style, 'border:1px solid #666')][contains(@style, 'font-size:11px')]"
         if self.page.is_visible(box, timeout=1000):
-            text = self.page.locator(box).last.text_content()
+            text = self.page.locator(box).last.text_content(timeout=1000)
             return "prescrição" in text.lower()
         return False
     

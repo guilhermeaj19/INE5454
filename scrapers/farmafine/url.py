@@ -5,13 +5,13 @@ class FarmafineUrlExtractor(AbsUrlExtractor):
         super().__init__(page, url if url else "https://farmafine.com.br/collections/medicamentos?page=1")
 
     def setup(self):
-        self.page.goto(self.url if self.url else "")
+        self.page.goto(self.url if self.url else "", timeout=0)
         self.page.wait_for_selector("a.pagination__nav-item")
         self.limit = int(self.page.locator("a.pagination__nav-item").all()[-1].text_content())
 
     def process(self, data = None):
         if data is not None:
-            self.page.goto(data if data else "")
+            self.page.goto(data if data else "", timeout=0)
         self.page.wait_for_selector("a.product-item__image-wrapper")
     
     def get_next_url(self):
