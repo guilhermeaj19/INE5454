@@ -25,6 +25,6 @@ with Session() as db:
 
     # 2. Mostra ofertas, destacando a mais barata
     for oferta in medicamento.ofertas:
-        destaque = "  ✅ Melhor preço!" if oferta.preco == menor_preco else ""
+        destaque = " - ✅ Melhor preço!" if oferta.preco == menor_preco else ""
         st.write(f"- **{oferta.farmacia.nome}**: R$ {oferta.preco:.2f}")
-        st.markdown(f"[Ver oferta]({oferta.url}) - {destaque}")
+        st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;[Ver oferta]({oferta.url}){destaque}")
