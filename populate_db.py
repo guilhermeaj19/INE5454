@@ -15,7 +15,7 @@ farmacias = ["Drogaria Central", "Droga Raia", "Farma Fine"]
 # 2. Abre transação
 with Session() as db:
 
-    for i in range(50):
+    for i in range(100):
 
         preco_float = round(random.uniform(0, 150), 2)
         preco_decimal = Decimal(preco_float).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
@@ -23,9 +23,10 @@ with Session() as db:
         # 3. Insere ou atualiza uma oferta
         oferta = upsert_medicamento_oferta(
             db,
-            registro_ms="123456789012"+str(i),
+            registro_ms="123456789013"+str(i),
             nome=f"{i} - Nome do Remédio",
             marca="Marca",
+            quantidade=30,
             categoria="Analgésico",
             sub_categoria="Dor e Febre",
             image_source="https://assets.mypharma.com.br/StoreAdmin/product/dipirona-sodica-7899547531213",
@@ -43,9 +44,10 @@ with Session() as db:
         # 3. Insere ou atualiza uma oferta
         oferta = upsert_medicamento_oferta(
             db,
-            registro_ms="123456789012"+str(i),
+            registro_ms="123456789013"+str(i),
             nome=f"{i} - Nome do Remédio",
             marca="Marca",
+            quantidade=30,
             categoria="Analgésico",
             sub_categoria="Dor e Febre",
             image_source="https://assets.mypharma.com.br/StoreAdmin/product/dipirona-s%C3%B3dica-7896714207551",
@@ -63,9 +65,10 @@ with Session() as db:
         # 3. Insere ou atualiza uma oferta
         oferta = upsert_medicamento_oferta(
             db,
-            registro_ms="123456789012"+str(i),
+            registro_ms="123456789013"+str(i),
             nome=f"{i} - Nome do Remédio",
             marca="Marca",
+            quantidade=30,
             categoria="Analgésico",
             sub_categoria="Dor e Febre",
             image_source="https://assets.mypharma.com.br/StoreAdmin/product/dipirona-sodica-7899547500363",
