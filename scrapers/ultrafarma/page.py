@@ -2,7 +2,7 @@ import requests
 from medextractor import AbsPageExtractor
 import re
 
-class UltrafarmaExtractor(AbsPageExtractor):
+class UltrafarmaPageExtractor(AbsPageExtractor):
     def __init__(self, page, db):
         super().__init__(page, db)
         

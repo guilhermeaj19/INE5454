@@ -2,6 +2,7 @@ from abc import ABC
 from db.models import Medicamento
 from playwright.sync_api import Page
 from db.utils import upsert_medicamento_oferta
+from medextractor.utils import extrai_qtd
 
 
 class AbsPageExtractor(ABC):
@@ -34,6 +35,9 @@ class AbsPageExtractor(ABC):
 
     def get_registro_ms(self) -> int:
         return None
+    
+    def get_quantidade(self) -> int:
+        return extrai_qtd(self.get_nome())
 
     def get_marca(self) -> str:
         return None
@@ -70,6 +74,7 @@ class AbsPageExtractor(ABC):
             db=self.db,
             nome=self.get_nome(),
             registro_ms=self.get_registro_ms(),
+            quantidade=self.get_quantidade(),
             marca=self.get_marca(),
             categoria=self.get_categoria(),
             sub_categoria=self.get_sub_categoria(),

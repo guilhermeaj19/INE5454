@@ -24,7 +24,7 @@ class FarmafinePageExtractor(AbsPageExtractor):
     
     def get_registro_ms(self):
         try:
-            table = self.page.locator("#attr-registroms").get_attribute("data-attr-value",timeout=1000)
+            table = self.page.locator("#attr-registroms").get_attribute("data-attr-value",timeout=5000)
             return table
         except:
             pass
