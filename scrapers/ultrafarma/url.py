@@ -4,8 +4,8 @@ import json
 
 class UltrafarmaUrlExtractor(AbsUrlExtractor):
 
-    def __init__(self, page, url=None):
-        super().__init__(page, url if url else "https://www.ultrafarma.com.br/categoria/medicamentos", limit=50)
+    def __init__(self, url=None):
+        super().__init__(url if url else "https://www.ultrafarma.com.br/categoria/medicamentos")
 
     def setup(self):
         self.page.goto(self.url if self.url else "")
@@ -18,7 +18,6 @@ class UltrafarmaUrlExtractor(AbsUrlExtractor):
         group_buttons.scroll_into_view_if_needed()
         for i in range(20):
             current_height = self.page.evaluate("document.body.scrollHeight")
-            print("Teste")
             if current_height != self.previous_height:
                 self.previous_height = current_height
                 return ""

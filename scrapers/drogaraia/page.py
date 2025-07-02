@@ -1,10 +1,8 @@
-import requests
 from medextractor import AbsPageExtractor
-import re
 
 class DrogaraiaPageExtractor(AbsPageExtractor):
-    def __init__(self, page, db):
-        super().__init__(page, db)
+    def __init__(self):
+        super().__init__()
 
     def process(self, data):
         self.page.goto(data)

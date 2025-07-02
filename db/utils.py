@@ -16,7 +16,6 @@ def validate_medicamento(med: Medicamento):
         return False
 
     if not med.registro_ms:
-        print(med)
         return False
     
 
@@ -59,12 +58,9 @@ def upsert_medicamento_oferta(
             is_generico=is_generico,
             necessita_prescricao=necessita_prescricao,
         )
-        print(med)
         if validate_medicamento(med):
             med_repo.add(med)
-            print(med)
         else:
-            print("Inválido")
             return None
 
     farma = far_repo.get_or_create(farmacia_nome)

@@ -1,8 +1,8 @@
 from medextractor import AbsUrlExtractor
 
 class FarmafineUrlExtractor(AbsUrlExtractor):
-    def __init__(self, page, url=None):
-        super().__init__(page, url if url else "https://farmafine.com.br/collections/medicamentos?page=1")
+    def __init__(self, url=None):
+        super().__init__(url if url else "https://farmafine.com.br/collections/medicamentos?page=1")
 
     def setup(self):
         self.page.goto(self.url if self.url else "", timeout=0)

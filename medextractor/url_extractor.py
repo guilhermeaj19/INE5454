@@ -1,12 +1,9 @@
 from abc import ABC
 from playwright.sync_api import Page
-
+from playwright.sync_api import sync_playwright
 
 class AbsUrlExtractor(ABC):
-    def __init__(self, page: Page, url=None, limit=None, page_it=None):
-        # self.pw = sync_playwright().start()
-        # self.chrome = self.pw.chromium.launch(headless=False)
-        self.page = page
+    def __init__(self, url=None, limit=None, page_it=None):
         self.url = url
 
         # 120 Páginas se limite não for definido
@@ -31,14 +28,18 @@ class AbsUrlExtractor(ABC):
         return self.url
 
     def extract(self):
-        url_set = set()
-        self.setup()
-        for _ in range(self.limit):
-            self.process(self.url)
-            data = self.get_urls()
-            self.url = self.get_next_url()
-            url_set.update(data)
-            if self.url == None:
-                break
+        with sync_playwright() as pw:
+            self.chrome = pw.chromium.launch(headless=False)
+            self.page = self.chrome.new_page()
+            url_set = set()
 
-        return url_set
+            self.setup()
+            for _ in range(self.limit):
+                self.process(self.url)
+                data = self.get_urls()
+                self.url = self.get_next_url()
+                url_set.update(data)
+                if self.url == None:
+                    break
+
+            return url_set

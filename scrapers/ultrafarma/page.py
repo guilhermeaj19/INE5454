@@ -3,8 +3,8 @@ from medextractor import AbsPageExtractor
 import re
 
 class UltrafarmaPageExtractor(AbsPageExtractor):
-    def __init__(self, page, db):
-        super().__init__(page, db)
+    def __init__(self):
+        super().__init__()
         
     def process(self, data):
         self.page.goto(data, timeout=0)

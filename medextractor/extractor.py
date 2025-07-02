@@ -1,10 +1,8 @@
 from abc import ABC
+from concurrent.futures import ThreadPoolExecutor
 from medextractor.med_extractor import AbsPageExtractor
 from medextractor.url_extractor import AbsUrlExtractor
 from playwright.sync_api import Page
-from db import make_session
-from playwright.sync_api import sync_playwright
-
 
 class AbsExtractor(ABC):
 
@@ -13,19 +11,17 @@ class AbsExtractor(ABC):
     base_url = ""
 
     def __init__(self):
-        engine, self.db = make_session()
-        self.pw = sync_playwright().start()
-        self.chrome = self.pw.chromium.launch(headless=False)
-        self.page = self.chrome.new_page()
-        self.url_extractor = self.url_extractor_cls(self.page, self.base_url)
-        self.med_extractor = self.page_extractor_cls(self.page, self.db)
+        pass
+
+    def _task(self, url):
+        try:
+            oferta = self.page_extractor_cls().extract(url)
+            print(oferta)
+        except Exception as e:
+            print(f"Erro na url {url}")
+            print(e)
 
     def extract(self):
-        urls = self.url_extractor.extract()
-        for url in urls:
-            try:
-                med = self.med_extractor.extract(url)
-                print(med)
-            except Exception as e:
-                print(f"Erro na url {url}")
-                print(e)
+        urls = self.url_extractor_cls(self.base_url).extract()
+        with ThreadPoolExecutor() as pool:
+            pool.map(self._task, urls)

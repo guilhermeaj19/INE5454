@@ -4,9 +4,8 @@ import json
 
 
 class SaoJoaoUrlExtractor(AbsUrlExtractor):
-    def __init__(self, page, url=None):
+    def __init__(self, url=None):
         super().__init__(
-            page,
             url if url else "https://www.saojoaofarmacias.com.br/medicamentos",
             limit=20,
         )

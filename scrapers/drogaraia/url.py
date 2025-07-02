@@ -3,8 +3,8 @@ import json
 
 class DrogaraiaUrlExtractor(AbsUrlExtractor):
 
-    def __init__(self, page, url=None):
-        super().__init__(page, url if url else "https://www.drogaraia.com.br/medicamentos/remedios.html", limit=20)
+    def __init__(self, url=None):
+        super().__init__(url if url else "https://www.drogaraia.com.br/medicamentos/remedios.html", limit=10)
 
     def process(self, data = None):
         self.page.goto(data if data else "", timeout=0)
