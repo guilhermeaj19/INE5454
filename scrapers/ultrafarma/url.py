@@ -5,7 +5,7 @@ import json
 class UltrafarmaUrlExtractor(AbsUrlExtractor):
 
     def __init__(self, url=None):
-        super().__init__(url if url else "https://www.ultrafarma.com.br/categoria/medicamentos")
+        super().__init__(url if url else "https://www.ultrafarma.com.br/categoria/medicamentos", limit=600)
 
     def setup(self):
         self.page.goto(self.url if self.url else "")

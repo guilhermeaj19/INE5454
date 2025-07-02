@@ -1,15 +1,16 @@
 from decimal import Decimal
-from db import init_db, Session                     # cria engine, Session e metadata [9]
+from db import make_session                     # cria engine, Session e metadata [9]
+from db.models.farmacia import Farmacia
 from db.models.medicamento import Medicamento
 from db.models.oferta import Oferta
 from db.utils import upsert_medicamento_oferta   # função criada anteriormente
-from sqlalchemy import func, distinct
+from sqlalchemy import func, distinct, select
 from db.models.medicamento import Medicamento
 from db.models.oferta import Oferta
                                         # usa MedicamentoRepo[6], FarmaciaRepo[8] e OfertaRepo[7]
 
 # 1. Garante que as tabelas existam (executar uma única vez no início do app)
-init_db()                                           # [9]
+engine, db = make_session()                                         # [9]
 def list_meds_sold_in_multiple_farmacias(db) -> list[Medicamento]:
     return (
         db.query(Medicamento)
@@ -18,10 +19,17 @@ def list_meds_sold_in_multiple_farmacias(db) -> list[Medicamento]:
         .having(func.count(distinct(Oferta.farmacia_id)) >= 2)
         .all()
     )
-init_db()
+
 # 2. Abre transação
-with Session() as db:
-    print(list_meds_sold_in_multiple_farmacias(db))
+print(len(list_meds_sold_in_multiple_farmacias(db)))
+stmt = (
+    select(Oferta)                 # o que queremos retornar
+    .join(Oferta.farmacia)         # junta com a tabela Farmacia via relacionamento
+    .where(Farmacia.nome == "farmafine")  # filtra pelo nome da farmácia
+)
+
+# ofertas_farmafine = db.scalars(stmt).all()
+# print(ofertas_farmafine)
     # 3. Insere ou atualiza uma oferta
     # oferta = upsert_medicamento_oferta(
     #     db,

@@ -61,4 +61,4 @@ class SaoJoaoPageExtractor(AbsPageExtractor):
         return "genérico" in self.get_nome().lower() or "generico" in self.get_nome().lower()
     
     def get_farmacia(self):
-        return "ultrafarma"
+        return "saojoao"

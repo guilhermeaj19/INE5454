@@ -38,8 +38,10 @@ class AbsUrlExtractor(ABC):
                 self.process(self.url)
                 data = self.get_urls()
                 self.url = self.get_next_url()
-                url_set.update(data)
                 if self.url == None:
                     break
+                if data == None:
+                    break
+                url_set.update(data)
 
             return url_set

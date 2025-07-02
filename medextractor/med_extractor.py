@@ -12,7 +12,7 @@ class AbsPageExtractor(ABC):
     def __init__(
         self
     ):
-        engine, self.db = make_session()
+        self.engine, self.db = make_session()
 
     def process(self, data):
         """Operação realizada antes de chamar os getters
@@ -87,5 +87,4 @@ class AbsPageExtractor(ABC):
                 preco=self.get_preco(),
                 url=self.url
             )
-
             return med

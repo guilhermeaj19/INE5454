@@ -7,7 +7,7 @@ class SaoJoaoUrlExtractor(AbsUrlExtractor):
     def __init__(self, url=None):
         super().__init__(
             url if url else "https://www.saojoaofarmacias.com.br/medicamentos",
-            limit=20,
+            limit=600
         )
 
     def process(self, data=None):
@@ -23,14 +23,30 @@ class SaoJoaoUrlExtractor(AbsUrlExtractor):
 
     # TODO: arrumar a inserção no json para se tornar um json único (ou um txt) e não um jsonl
     def get_urls(self):
-        try:
-            urls_element = self.page.locator(
-                "a.vtex-product-summary-2-x-clearLink--vitrine"
-            ).all()
-            urls = [
-                "https://www.saojoaofarmacias.com.br" + url.get_attribute("href")
-                for url in urls_element
-            ]
-            return urls
-        except:
-            return None
+        for i in range(3):
+            try:
+                # time.sleep(1)
+                self.page.wait_for_selector("p.sjdigital-custom-apps-7-x-cepFirstText")
+                show_more = self.page.locator("div.sjdigital-search-result-3-x-buttonShowMore--layout")
+                show_more.scroll_into_view_if_needed()
+                # time.sleep(4)
+                urls_element = self.page.locator(
+                    "a.vtex-product-summary-2-x-clearLink"
+                ).all()
+                for elm in urls_element:
+                    elm.scroll_into_view_if_needed()
+            
+                urls_element = self.page.locator(
+                    "a.vtex-product-summary-2-x-clearLink"
+                ).all()
+                urls = [
+                    "https://www.saojoaofarmacias.com.br" + url.get_attribute("href")
+                    for url in urls_element
+                ]
+                print(len(urls))
+                if urls == []:
+                    return None
+                return urls
+            except:
+                pass
+        return None
