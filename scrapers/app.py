@@ -7,15 +7,11 @@ from playwright.sync_api import sync_playwright
 
 class ScraperApp:
     def __init__(self):
-        self.db = Session()
-        self.pw = sync_playwright().start()
-        self.chrome = self.pw.chromium.launch(headless=False)
-        self.page = self.chrome.new_page()
         self.extractors = [
-            DrogaraiaExtractor(self.page, self.db),
-            # FarmafineExtractor(self.page, self.db),
-            # UltrafarmaExtractor(self.page, self.db),
-            # SaoJoaoExtractor(self.page, self.db)
+            # DrogaraiaExtractor(),
+            # FarmafineExtractor(),
+            # UltrafarmaExtractor(),
+            SaoJoaoExtractor()
         ]
 
     def run(self):

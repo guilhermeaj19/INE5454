@@ -8,5 +8,5 @@ class DrogaraiaExtractor(AbsExtractor):
     url_extractor_cls = DrogaraiaUrlExtractor
     page_extractor_cls = DrogaraiaPageExtractor
 
-    def __init__(self, page, db):
-        super().__init__(page, db)
+    def __init__(self):
+        super().__init__()

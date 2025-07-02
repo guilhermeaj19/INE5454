@@ -8,5 +8,5 @@ class FarmafineExtractor(AbsExtractor):
     url_extractor_cls = FarmafineUrlExtractor
     page_extractor_cls = FarmafinePageExtractor
 
-    def __init__(self, page, db):
-        super().__init__(page, db)
+    def __init__(self):
+        super().__init__()

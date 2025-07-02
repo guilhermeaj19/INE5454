@@ -8,5 +8,5 @@ class UltrafarmaExtractor(AbsExtractor):
     url_extractor_cls = UltrafarmaUrlExtractor
     page_extractor_cls = UltrafarmaPageExtractor
 
-    def __init__(self, page, db):
-        super().__init__(page, db)
+    def __init__(self):
+        super().__init__()
