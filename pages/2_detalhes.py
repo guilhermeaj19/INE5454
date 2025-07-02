@@ -54,8 +54,8 @@ with Session() as db:
         if med.quantidade:
             st.write(f"Quantidade: {med.quantidade}")
 
-        st.write(f"Genérico? {"✅" if med.is_generico else "❌"}")
-        st.write(f"Necessita prescrição? {"✅" if med.necessita_prescricao else "❌"}")
+        st.write(f"Genérico? {'✅' if med.is_generico else '❌'}")
+        st.write(f"Necessita prescrição? {'✅' if med.necessita_prescricao else '❌'}")
         
     with col2:
         if med.descricao:
