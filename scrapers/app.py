@@ -10,8 +10,8 @@ class ScraperApp:
         init_db(engine)
 
         self.extractors = [
-            # DrogaraiaExtractor(),
-            # FarmafineExtractor(),
+            DrogaraiaExtractor(),
+            FarmafineExtractor(),
             UltrafarmaExtractor(),
             SaoJoaoExtractor()
         ]

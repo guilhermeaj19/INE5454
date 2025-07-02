@@ -11,25 +11,25 @@ from db.models.oferta import Oferta
 
 # 1. Garante que as tabelas existam (executar uma única vez no início do app)
 engine, db = make_session()                                         # [9]
-def list_meds_sold_in_multiple_farmacias(db) -> list[Medicamento]:
-    return (
-        db.query(Medicamento)
-        .join(Medicamento.ofertas)                # medicamento → oferta
-        .group_by(Medicamento.id)
-        .having(func.count(distinct(Oferta.farmacia_id)) >= 2)
-        .all()
-    )
+# def list_meds_sold_in_multiple_farmacias(db) -> list[Medicamento]:
+#     return (
+#         db.query(Medicamento)
+#         .join(Medicamento.ofertas)                # medicamento → oferta
+#         .group_by(Medicamento.id)
+#         .having(func.count(distinct(Oferta.farmacia_id)) >= 2)
+#         .all()
+#     )
 
 # 2. Abre transação
-print(len(list_meds_sold_in_multiple_farmacias(db)))
+# print(len(list_meds_sold_in_multiple_farmacias(db)))
 stmt = (
     select(Oferta)                 # o que queremos retornar
     .join(Oferta.farmacia)         # junta com a tabela Farmacia via relacionamento
-    .where(Farmacia.nome == "farmafine")  # filtra pelo nome da farmácia
+    .where(Farmacia.nome == "drogaraia")  # filtra pelo nome da farmácia
 )
 
-# ofertas_farmafine = db.scalars(stmt).all()
-# print(ofertas_farmafine)
+ofertas_farmafine = db.scalars(stmt).all()
+print(len(ofertas_farmafine))
     # 3. Insere ou atualiza uma oferta
     # oferta = upsert_medicamento_oferta(
     #     db,
