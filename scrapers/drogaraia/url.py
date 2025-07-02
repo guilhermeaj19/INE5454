@@ -12,8 +12,8 @@ class DrogaraiaUrlExtractor(AbsUrlExtractor):
 
     def setup(self):
         self.page.goto(self.url if self.url else "", timeout=0)
-        self.page.wait_for_selector("a.Paginationstyles__Link-sc-1am2zyy-3")
-        self.limit = int(self.page.locator("a.Paginationstyles__Link-sc-1am2zyy-3").all()[-2].text_content())
+        # self.page.wait_for_selector("a.Paginationstyles__Link-sc-1am2zyy-3")
+        # self.limit = int(self.page.locator("a.Paginationstyles__Link-sc-1am2zyy-3").all()[-2].text_content())
 
     def get_next_url(self):
         self.page_it += 1

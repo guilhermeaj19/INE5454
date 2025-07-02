@@ -14,7 +14,7 @@ class SaoJoaoPageExtractor(AbsPageExtractor):
 
         # with open("result.html", "w", encoding="utf-8") as f:
         #     f.write(html_content)
-        self.page.wait_for_selector("a.vtex-breadcrumb-1-x-link--3")
+        # self.page.wait_for_selector("a.vtex-store-components-3-x-productNameContainer", timeout=1000)
         # time.sleep(6)
 
     def get_nome(self):

@@ -21,3 +21,4 @@ class AbsExtractor(ABC):
                 print(med)
             except Exception as e:
                 print(f"Erro na url {url}")
+                print(e)

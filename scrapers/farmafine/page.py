@@ -46,7 +46,7 @@ class FarmafinePageExtractor(AbsPageExtractor):
         if type(img) == list:
             img = img[0]
         
-        return img.get_attribute("data-zoom",timeout=1000).strip()[2:]
+        return "https://"+ img.get_attribute("data-zoom",timeout=1000).strip()[2:]
         
     def get_is_generico(self):
         return "genérico" in self.get_nome().lower() or "generico" in self.get_nome().lower()
