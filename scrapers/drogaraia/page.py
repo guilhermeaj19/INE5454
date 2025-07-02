@@ -65,7 +65,7 @@ class DrogaraiaPageExtractor(AbsPageExtractor):
     
     def get_image_source(self):
         try:
-            return self.page.locator("img.main-image").get_attribute("src",timeout=1000)
+            return "https://www.drogaraia.com.br" + self.page.locator("img.main-image").get_attribute("src",timeout=1000)
         except:
             return None
         
