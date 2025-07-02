@@ -45,7 +45,7 @@ def upsert_medicamento_oferta(
     oferta_repo = OfertaRepo(db)
 
     med = med_repo.get_by_registro_quantidade(registro_ms, quantidade)
-
+    print(med)
     if med is None:
         med = Medicamento(
             registro_ms=registro_ms,
@@ -59,8 +59,10 @@ def upsert_medicamento_oferta(
             is_generico=is_generico,
             necessita_prescricao=necessita_prescricao,
         )
+        print(med)
         if validate_medicamento(med):
             med_repo.add(med)
+            print(med)
         else:
             print("Inválido")
             return None

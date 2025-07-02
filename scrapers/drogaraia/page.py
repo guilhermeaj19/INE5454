@@ -65,7 +65,7 @@ class DrogaraiaPageExtractor(AbsPageExtractor):
     
     def get_image_source(self):
         try:
-            return eval(self.page.locator("script[type='application/ld+json']").text_content(timeout=1000))['image']
+            return self.page.locator("img.main-image").get_attribute("src",timeout=1000)
         except:
             return None
         

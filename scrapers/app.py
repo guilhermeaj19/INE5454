@@ -12,10 +12,10 @@ class ScraperApp:
         self.chrome = self.pw.chromium.launch(headless=False)
         self.page = self.chrome.new_page()
         self.extractors = [
-            DrogaraiaExtractor(self.page, self.db),
+            # DrogaraiaExtractor(self.page, self.db),
             # FarmafineExtractor(self.page, self.db),
             # UltrafarmaExtractor(self.page, self.db),
-            # SaoJoaoExtractor(self.page, self.db)
+            SaoJoaoExtractor(self.page, self.db)
         ]
 
     def run(self):
