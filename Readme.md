@@ -1,11 +1,17 @@
-#Instalação
+# Instalação
 
+```bash
 pip install -r requirements.txt
+```
 
-#Executar aplicativo
+# Executar aplicativo
 
+```bash
 streamlit web_app.py
+```
 
-#Executar extração
+# Executar extração
 
+```bash
 python3 extract.py
+```
