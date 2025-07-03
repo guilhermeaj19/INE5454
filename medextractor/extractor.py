@@ -23,5 +23,5 @@ class AbsExtractor(ABC):
 
     def extract(self):
         urls = self.url_extractor_cls(self.base_url).extract()
-        with ThreadPoolExecutor(max_workers=10) as pool:
+        with ThreadPoolExecutor(max_workers=5) as pool:
             pool.map(self._task, urls)
