@@ -8,10 +8,9 @@ from db.models.medicamento import Medicamento
 from db.models.oferta import Oferta
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import text
+from engine import get_engine
 
-db_path = format(Path(__file__).parent.parent / "pharma.db")
-
-engine = create_engine(f"sqlite:///{db_path}")
+engine = get_engine()
 
 # Cria Session
 Session = sessionmaker(bind=engine)

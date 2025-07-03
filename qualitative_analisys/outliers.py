@@ -3,10 +3,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 from pathlib import Path
+from engine import get_engine
 
-db_path = format(Path(__file__).parent.parent / "pharma.db")
 
-engine = create_engine(f"sqlite:///{db_path}")
+engine = get_engine()
 
 df = pd.read_sql("SELECT * FROM oferta", engine)
 

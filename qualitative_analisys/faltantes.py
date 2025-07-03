@@ -1,10 +1,9 @@
 from sqlalchemy import create_engine, inspect
+from engine import get_engine
 import pandas as pd
 from pathlib import Path
 
-db_path = format(Path(__file__).parent.parent / "pharma.db")
-
-engine = create_engine(f"sqlite:///{db_path}")
+engine = get_engine()
 
 # Lista tabelas
 inspector = inspect(engine)
